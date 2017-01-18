@@ -117,11 +117,9 @@ RUN wget http://ftp.fau.de/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-m
     mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
 ```
 
-I chose to use [AlpineLinux](https://www.alpinelinux.org)
- because of its lightness. On this Dockerfile, you can find all commands to install Java, Maven and other components...
+I chose to use [AlpineLinux](https://www.alpinelinux.org) because of its lightness. On this Dockerfile, you can find all commands to install Java, Maven and other components.
 
-
- ### Database (Postgres)
+### Database (Postgres)
 ```bash
 FROM postgres:latest
 MAINTAINER YMonnier <contact@yseemonnier.com>
