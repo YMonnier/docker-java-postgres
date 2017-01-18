@@ -148,15 +148,12 @@ Creating of our AlpineLinux&Java image with a tag `ymonnier/java-mini:1.0`:
 
 #### Containers
 For the database:
-* docker run -d -t -i --name database ymonnier/psql:1.0
-
+* `docker run -d -t -i --name database ymonnier/psql:1.0`
 Our Java app:
-* docker run --rm --name MyApp -t -i --link database:database --volume $(pwd)/Client:/home/app/ ymonnier/mini-java:1.0 bash
-
+* `docker run --rm --name MyApp -t -i --link database:database --volume $(pwd)/Client:/home/app/ ymonnier/mini-java:1.0 bash`
 Execute java project:
 When you are into the `ymonnier/java-mini:1.0`container you can run:
-* cd /home/app/ && mvn package && mvn exec:java -Dexec.mainClass="com.yseemonnier.dbDocker.App"
-
+* `cd /home/app/ && mvn package && mvn exec:java -Dexec.mainClass="com.yseemonnier.dbDocker.App"`
 You will see the maven compilation and the execution:
 ```
 Hello World from Docker Container!
@@ -170,10 +167,13 @@ Client Pierre - 45
 Now in your App you can use `database`(`--link database:database` when creating the Java container) as DB URL connection and use the user(`POSTGRES_USER, POSTGRES_PASSWORD`), database name(`POSTGRES_DB`) created into the `Database/Dockerfile`.
 
 Example of JDBC Connection:
-`DriverManager.getConnection("jdbc:postgresql://database/app", "root", "root");`
-
+```java
+    DriverManager.getConnection("jdbc:postgresql://database/app", "root", "root");
+```
 jdbc:postgresql://*database*/*app*.
+
 *database* refer to `--link` option.
+
 *app* refer to the postgres environment, the same for the user and password.
 
 Contributor
