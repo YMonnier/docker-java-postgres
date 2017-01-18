@@ -1,6 +1,6 @@
-# Link Two Container Java - Postgres
+# Link Two Containers Java - Postgres
 
-Steps to connect a JDBC App to an Postgres database through docker.
+Steps to connect a JDBC App to an Postgres database through docker containers.
 
 The main idea is to have two containers which will be connected together, one for Java App and the second for the database.
 
