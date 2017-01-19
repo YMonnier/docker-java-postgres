@@ -6,7 +6,7 @@
 * [Docker](https://www.docker.com)
 * docker-machine
 
-Please check your docker installation by executing: `command -v docker` or `which docker` | `command -v docker-machine` or `which docker-machine`.
+Please check your docker installation by executing: `command -v docker` or `which docker` | `command -v docker-compose` or `which docker-compose`.
 
 --> [To download Docker](https://www.docker.com/products/overview) <--
 
