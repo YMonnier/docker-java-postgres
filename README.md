@@ -6,6 +6,10 @@ The main idea is to have two containers which will be connected together, one fo
 
 The Java container will share a volume with the host. The volume is used to share a specific folder on the host to the container file system. For this example we will create a volume to the source Maven project.
 
+
+**If you want to see an example with docker-compose, please go to the `docker-compose` git branch.**
+
+
 ## Requirements
 * [Docker](https://www.docker.com)
 
