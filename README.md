@@ -150,7 +150,7 @@ Creating of our AlpineLinux&Java image with a tag `ymonnier/java-mini:1.0`:
 For the database:
 * `docker run -d -t -i --name database ymonnier/psql:1.0`
 Our Java app:
-* `docker run --rm --name MyApp -t -i --link database:database --volume $(pwd)/Client:/home/app/ ymonnier/mini-java:1.0 bash`
+* `docker run --rm --name MyApp -t -i --link database:database --volume $(pwd)/Client:/home/app/ ymonnier/java-mini:1.0 bash`
 Execute java project:
 When you are into the `ymonnier/java-mini:1.0`container you can run:
 * `cd /home/app/ && mvn package && mvn exec:java -Dexec.mainClass="com.yseemonnier.dbDocker.App"`
