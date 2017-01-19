@@ -1,0 +1,11 @@
+version: '2.0'
+services:
+  psql:
+    build: Database/
+  appjava:
+    build: Client/
+    links: 
+      - psql:database
+    depends_on:
+      - psql
+    command: mvn exec:java -Dexec.mainClass="com.yseemonnier.dbDocker.App"

@@ -1,15 +1,12 @@
 # Link Two Containers Java - Postgres
 
-Steps to connect a JDBC App to an Postgres database through docker containers.
-
-The main idea is to have two containers which will be connected together, one for Java App and the second for the database.
-
-The Java container will share a volume with the host. The volume is used to share a specific folder on the host to the container file system. For this example we will create a volume to the source Maven project.
+** This branch uses the docker-compose allowing to define and run multi-container applications. **
 
 ## Requirements
 * [Docker](https://www.docker.com)
+* docker-machine
 
-Please check your docker installation by executing: `command -v docker` or `which docker`.
+Please check your docker installation by executing: `command -v docker` or `which docker` | `command -v docker-machine` or `which docker-machine`.
 
 --> [To download Docker](https://www.docker.com/products/overview) <--
 
@@ -24,7 +21,8 @@ Please check your docker installation by executing: `command -v docker` or `whic
 │   └── target
 ├── Database
 │   └── Dockerfile  <--
-└── README.md
+│── README.md
+└── docker-compose.yml <--
 ```
 
 * ***Client*** folder contains the JDBC App using [Maven](https://maven.apache.org) and the Dockerfile which will execute the Java App.
@@ -115,6 +113,14 @@ RUN wget http://ftp.fau.de/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-m
     tar -zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz && \
     rm apache-maven-$MAVEN_VERSION-bin.tar.gz && \
     mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
+
+ENV WORKSPACE /home/app/
+RUN mkdir -p $WORKSPACE
+WORKDIR $WORKSPACE
+
+COPY . $WORKSPACE
+
+CMD cd $WORKSPACE && mvn package
 ```
 
 I chose to use [AlpineLinux](https://www.alpinelinux.org) because of its lightness. On this Dockerfile, you can find all commands to install Java, Maven and other components.
@@ -133,28 +139,9 @@ ENV POSTGRES_DB app
 
 * `git clone git@github.com:YMonnier/docker-java-postgres.git`
 * `cd docker-java-postgres`
+* `docker-compose up`
 
-#### Images
-
-docker build [OPTIONS] PATH : Build an image from a Dockerfile
-
-Creating of Postgres image with a tag `ymonnier/psql:1.0`:
-* `docker build Database/ -t ymonnier/psql:1.0`.
-
-Creating of our AlpineLinux&Java image with a tag `ymonnier/java-mini:1.0`:
-* `docker build Client/ -t ymonnier/java-mini:1.0`
-
-*tag format*: 'name:tag'
-
-#### Containers
-For the database:
-* `docker run -d -t -i --name database ymonnier/psql:1.0`
-Our Java app:
-* `docker run --rm --name MyApp -t -i --link database:database --volume $(pwd)/Client:/home/app/ ymonnier/java-mini:1.0 bash`
-Execute java project:
-When you are into the `ymonnier/java-mini:1.0`container you can run:
-* `cd /home/app/ && mvn package && mvn exec:java -Dexec.mainClass="com.yseemonnier.dbDocker.App"`
-You will see the maven compilation and the execution:
+You will see the images building, maven compilation and the execution:
 ```
 Hello World from Docker Container!
 Deleting table 'Clients' if exists.
@@ -163,6 +150,7 @@ Inserting a client...
 Selecting all clients...
 Client Pierre - 45
 ```
+
 ##### JDBC Settings
 Now in your App you can use `database`(`--link database:database` when creating the Java container) as DB URL connection and use the user(`POSTGRES_USER, POSTGRES_PASSWORD`), database name(`POSTGRES_DB`) created into the `Database/Dockerfile`.
 
@@ -172,7 +160,7 @@ Example of JDBC Connection:
 ```
 jdbc:postgresql://*database*/*app*.
 
-*database* refer to `--link` option.
+*database* refer to `links` option into the docker-compose file.
 
 *app* refer to the postgres environment, the same for the user and password.
 
