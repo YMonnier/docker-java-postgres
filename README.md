@@ -1,4 +1,4 @@
-# Link Two Containers Java - Postgres wich Docker-Compose
+# Link Two Containers Java - Postgres with Docker-Compose
 
 **This branch uses the docker-compose allowing to define and run multi-container applications**
 
